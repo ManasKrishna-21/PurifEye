@@ -1,0 +1,28 @@
+# Virtual Environment
+.venv/
+__pycache__/
+*.pyc
+
+# Raw Dataset & Models (never commit heavy assets)
+Dataset/
+data/
+Plastic-Bottle-Detection-Models/
+yolo_dataset/
+runs/
+*.pt
+*.onnx
+*.tflite
+*.engine
+*.bin
+*.param
+reports/smoke_*
+reports/voc_to_yolo_verification/
+
+# Cache & Temp
+.pytest_cache/
+.ruff_cache/
+.uv_cache/
+.uv_python/
+*.egg-info/
+dist/
+build/
