@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PurifEye — Edge AI river plastic bottle detection dashboard">
+  <meta name="theme-color" content="#242649">
+  <title>PurifEye — Precision River Plastic Detection</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23386CAF'/><text x='16' y='22' text-anchor='middle' font-size='18' font-weight='700' fill='white' font-family='sans-serif'>P</text></svg>">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-logo" aria-hidden="true">P</div>
+      <div>
+        <div class="brand-title">PurifEye</div>
+        <div class="brand-subtitle">River Plastic Detection</div>
+      </div>
+      <span class="brand-badge">EDGE AI v0.1</span>
+    </div>
+    <nav role="navigation" aria-label="Dashboard pages">
+      <button class="nav-tab active" data-page="page-live"    aria-current="page">Live Detect</button>
+      <button class="nav-tab"        data-page="page-analyzer"              >Image Analyzer</button>
+      <button class="nav-tab"        data-page="page-lab"                   >Model Lab</button>
+      <button class="nav-tab"        data-page="page-eval"                  >Evaluation</button>
+      <button class="nav-tab"        data-page="page-dataset"               >Dataset Explorer</button>
+      <button class="nav-tab"        data-page="page-edge"                  >Edge Benchmarks</button>
+      <button class="nav-tab"        data-page="page-about"                 >About &amp; Card</button>
+    </nav>
+  </header>
+
+  {% if is_smoke %}
+  <div class="smoke-banner" role="alert">
+    <span>⚠</span>
+    <span><strong>SMOKE TEST MODE</strong> — Metrics reflect a 50-image verification subset, not final production results. Run the full pipeline for production figures.</span>
+  </div>
+  {% endif %}
+
+  <main>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 1: LIVE DETECT
+    ══════════════════════════════════════════ -->
+    <section id="page-live" class="page active" aria-label="Live Detection">
+      <div class="page-hero">
+        <div>
+          <div class="page-hero-title">Real-Time Stream</div>
+          <div class="page-hero-sub">3-thread capture / inference / render pipeline · CPU backend</div>
+        </div>
+        <div class="page-hero-status">
+          <span class="status-dot" title="Pipeline active"></span>
+          <span id="live-pipeline-state">INITIALIZING</span>
+        </div>
+      </div>
+
+      <div class="grid-4" style="margin-bottom:20px;">
+        <div class="metric-well">
+          <div class="metric-label"><span class="status-dot"></span>Pipeline FPS</div>
+          <div class="metric-value" id="live-fps">0.0</div>
+          <div class="metric-sub">TARGET: 15–30 FPS</div>
+        </div>
+        <div class="metric-well">
+          <div class="metric-label"><span class="status-dot"></span>Inference Latency</div>
+          <div class="metric-value" id="live-inf">— ms</div>
+          <div class="metric-sub">CPU PYTORCH BACKEND</div>
+        </div>
+        <div class="metric-well">
+          <div class="metric-label"><span class="status-dot"></span>End-to-End Latency</div>
+          <div class="metric-value" id="live-e2e">— ms</div>
+          <div class="metric-sub">CAPTURE TO DISPLAY</div>
+        </div>
+        <div class="metric-well">
+          <div class="metric-label"><span class="status-dot"></span>Bottles Counted</div>
+          <div class="metric-value" id="live-counted">0</div>
+          <div class="metric-sub">ACROSS RIVER TRANSECT</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Real-Time Detection Stream &amp; HUD</span>
+          <span class="card-title-accent">
+            Active: <span id="live-active">0</span> &nbsp;|&nbsp; Dropped Frames: <span id="live-dropped">0</span>
+          </span>
+        </div>
+        <div class="viewport-frame live-active" aria-label="Live video feed">
+          <img src="/video_feed" alt="PurifEye real-time detection stream" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 2: IMAGE ANALYZER
+    ══════════════════════════════════════════ -->
+    <section id="page-analyzer" class="page" aria-label="Image Analyzer">
+      <div class="page-hero">
+        <div>
+          <div class="page-hero-title">Image Analyzer</div>
+          <div class="page-hero-sub">Single-image YOLO inference with mode selection · sky-blue bounding box overlay</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Inspection Settings</div>
+
+          <div class="form-group">
+            <label for="analyze-file">Select Test Image</label>
+            <input type="file" id="analyze-file" accept="image/jpeg,image/png,image/webp">
+          </div>
+          <div class="form-group">
+            <label for="analyze-mode">Operating Mode</label>
+            <select id="analyze-mode">
+              <option value="accurate">Accurate — 640px 3×3 Tiled &amp; Merged</option>
+              <option value="live">Live — 512px Single-Pass</option>
+              <option value="adaptive">Adaptive Resolution</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="analyze-conf">Confidence Threshold</label>
+            <input type="number" id="analyze-conf" value="0.25" step="0.05" min="0.05" max="0.95">
+          </div>
+          <button class="btn" id="analyze-btn" style="width:100%;margin-top:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Analyze Image
+          </button>
+
+          <div class="divider"></div>
+
+          <div class="grid-2">
+            <div class="metric-well">
+              <div class="metric-label">Bottles Found</div>
+              <div class="metric-value" id="analyze-count">—</div>
+              <div class="metric-sub">DETECTIONS</div>
+            </div>
+            <div class="metric-well">
+              <div class="metric-label">Latency</div>
+              <div class="metric-value" id="analyze-latency">—</div>
+              <div class="metric-sub">WALL-CLOCK MS</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            Detection Overlay
+            <span class="chip chip-blue">Sky Blue · Dark Halo</span>
+          </div>
+          <div class="viewport-frame" id="analyze-viewport" style="min-height:380px;" aria-label="Detection result">
+            <div class="viewport-placeholder" id="analyze-placeholder">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 9 4-4 4 4 4-4 4 4"/><path d="M3 15h18"/></svg>
+              <span>Upload an image to begin analysis</span>
+            </div>
+            <img id="analyze-result-img" src="" alt="Analyzed output" style="display:none; max-width:100%; height:auto;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 3: MODEL LAB
+    ══════════════════════════════════════════ -->
+    <section id="page-lab" class="page" aria-label="Model Lab">
+      <div class="page-hero">
+        <div>
+          <div class="page-hero-title">Model Lab — Side-by-Side Comparison</div>
+          <div class="page-hero-sub">YOLOv8 Nano vs AutoML MobileNet-SSD TFLite baseline</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Dual Model Inference</div>
+        <div style="display:flex; gap:14px; align-items:flex-end; margin-bottom:20px; flex-wrap:wrap;">
+          <div style="flex:1; min-width:200px;">
+            <label for="compare-file">Upload Image for Dual Inference</label>
+            <input type="file" id="compare-file" accept="image/jpeg,image/png,image/webp">
+          </div>
+          <button class="btn" id="compare-btn" style="flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 15l-6-6-6 6"/></svg>
+            Run Dual Comparison
+          </button>
+        </div>
+
+        <div class="grid-2">
+          <!-- YOLO panel -->
+          <div class="card" style="background:rgba(36,38,73,0.6); margin-bottom:0;">
+            <div class="card-title" style="color:var(--color-accent);">
+              YOLOv8 Nano <span class="chip chip-blue">NEW</span>
+            </div>
+            <div class="viewport-frame" style="min-height:300px; margin-bottom:14px;" aria-label="YOLO result">
+              <div class="viewport-placeholder" id="lab-yolo-placeholder">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                <span>Awaiting comparison run</span>
+              </div>
+              <img id="lab-yolo-img" src="" alt="YOLOv8 Output" style="display:none; max-width:100%; height:auto;">
+            </div>
+            <div class="grid-2">
+              <div class="metric-well"><div class="metric-label">Detections</div><div class="metric-value" id="lab-yolo-count">—</div></div>
+              <div class="metric-well"><div class="metric-label">Latency</div><div class="metric-value" id="lab-yolo-lat">—</div></div>
+            </div>
+          </div>
+
+          <!-- TFLite panel -->
+          <div class="card" style="background:rgba(36,38,73,0.6); margin-bottom:0;">
+            <div class="card-title" style="color:var(--color-text-muted);">
+              AutoML MobileNet-SSD <span class="chip chip-muted">BASELINE</span>
+            </div>
+            <div class="viewport-frame" style="min-height:300px; margin-bottom:14px;" aria-label="TFLite result">
+              <div class="viewport-placeholder" id="lab-tflite-placeholder">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                <span>Awaiting comparison run</span>
+              </div>
+              <img id="lab-tflite-img" src="" alt="TFLite Output" style="display:none; max-width:100%; height:auto;">
+            </div>
+            <div class="grid-2">
+              <div class="metric-well"><div class="metric-label">Detections</div><div class="metric-value" id="lab-tflite-count">—</div></div>
+              <div class="metric-well"><div class="metric-label">Latency</div><div class="metric-value" id="lab-tflite-lat">—</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 4: EVALUATION
+    ══════════════════════════════════════════ -->
+    <section id="page-eval" class="page" aria-label="Evaluation">
+      <div class="page-hero">
+        <div>
+          <div class="page-hero-title">Model Evaluation</div>
+          <div class="page-hero-sub">Standardized benchmark on frozen test split · leakage-safe session-stratified</div>
+        </div>
+        {% if is_smoke %}
+        <span class="chip chip-muted">Smoke Subset</span>
+        {% else %}
+        <span class="chip chip-blue">Full Production</span>
+        {% endif %}
+      </div>
+
+      <div class="card">
+        <div class="card-title">Evaluation Table (Frozen Test Split)</div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Input Format</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>mAP@50</th>
+                <th>mAP@50-95</th>
+                <th>CPU Latency</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in eval_rows %}
+              <tr>
+                <td style="font-weight:600; white-space:nowrap;">{{ row.model }}</td>
+                <td>{{ row.input }}</td>
+                <td>{{ row.precision }}</td>
+                <td>{{ row.recall }}</td>
+                <td>{{ row.map50 }}</td>
+                <td>{{ row.map50_95 }}</td>
+                <td style="font-family:var(--font-mono);">{{ row.latency_cpu }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Precision-Recall Curves</div>
+          <div class="viewport-frame" style="min-height:300px;" aria-label="PR Curve plot">
+            <img src="/reports/pr_curve.png" alt="Precision-Recall Curve"
+                 onerror="this.parentElement.innerHTML='<div class=\'viewport-placeholder\'><span>PR curve generates after full evaluation run</span></div>'">
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Size Bucket Performance</div>
+          <p style="color:var(--color-text-muted); font-size:12px; margin-bottom:16px;">
+            Detection performance across bottle surface-area categories on the test split.
+          </p>
+
+          <div class="metric-well" style="margin-bottom:12px;">
+            <div class="metric-label">Small Objects &lt; 32×32 px</div>
+            <div style="margin-top:6px;">
+              <div class="bar-cell">
+                <span style="font-family:var(--font-mono);font-size:11px;color:var(--color-accent);min-width:38px;">97%</span>
+                <div class="bar-track"><div class="bar-fill" style="width:97%;"></div></div>
+                <span style="font-family:var(--font-mono);font-size:10px;color:var(--color-text-muted);">of dataset</span>
+              </div>
+            </div>
+            <div class="metric-sub" style="margin-top:8px;">STRATEGY: 640px overlapped tiling for recall boost</div>
+          </div>
+
+          <div class="metric-well" style="margin-bottom:12px;">
+            <div class="metric-label">Medium Objects 32–96 px</div>
+            <div style="margin-top:6px;">
+              <div class="bar-cell">
+                <span style="font-family:var(--font-mono);font-size:11px;color:var(--color-accent);min-width:38px;">2.5%</span>
+                <div class="bar-track"><div class="bar-fill" style="width:2.5%;"></div></div>
+                <span style="font-family:var(--font-mono);font-size:10px;color:var(--color-text-muted);">of dataset</span>
+              </div>
+            </div>
+            <div class="metric-sub" style="margin-top:8px;">Consistent detection across bank angles</div>
+          </div>
+
+          <div class="metric-well">
+            <div class="metric-label">Large Objects &gt; 96 px</div>
+            <div style="margin-top:6px;">
+              <div class="bar-cell">
+                <span style="font-family:var(--font-mono);font-size:11px;color:var(--color-accent);min-width:38px;">0.5%</span>
+                <div class="bar-track"><div class="bar-fill" style="width:0.5%;"></div></div>
+                <span style="font-family:var(--font-mono);font-size:10px;color:var(--color-text-muted);">of dataset</span>
+              </div>
+            </div>
+            <div class="metric-sub" style="margin-top:8px;">Foreground clusters &amp; debris rafts</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 5: DATASET EXPLORER
+    ══════════════════════════════════════════ -->
+    <section id="page-dataset" class="page" aria-label="Dataset Explorer">
+      <div class="page-hero">
+        <div>
+          <div class="page-hero-title">Dataset Explorer</div>
+          <div class="page-hero-sub">PlasticScan v1 · 34 river sites · session-stratified leakage-safe splits</div>
+        </div>
+      </div>
+
+      <div class="grid-4" style="margin-bottom:20px;">
+        <div class="metric-well">
+          <div class="metric-label">Total Images</div>
+          <div class="metric-value">{{ audit_data.get('total_images', 5592) }}</div>
+          <div class="metric-sub">ANNOTATED FRAMES</div>
+        </div>
+        <div class="metric-well">
+          <div class="metric-label">Annotated Bottles</div>
+          <div class="metric-value">{{ audit_data.get('total_boxes', 31215) }}</div>
+          <div class="metric-sub">BOUNDING BOXES</div>
+        </div>
+        <div class="metric-well">
+          <div class="metric-label">Small Object Share</div>
+          <div class="metric-value">{{ audit_data.get('small_objects_percentage', 97.0) }}%</div>
+          <div class="metric-sub">&lt; 32×32 PX OR &lt; 1% AREA</div>
+        </div>
+        <div class="metric-well">
+          <div class="metric-label">River Sessions</div>
+          <div class="metric-value">34</div>
+          <div class="metric-sub">GLOBAL SITES</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Geographic &amp; Country Distribution</div>
+          {% set country_data = audit_data.get('country_distribution', {}) %}
+          {% if country_data %}
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Country</th><th>Images</th><th>Share</th></tr></thead>
+              <tbody>
+                {% set total = audit_data.get('total_images', 5592) %}
+                {% for country, cnt in country_data.items() %}
+                <tr>
+                  <td style="font-weight:500;">{{ country }}</td>
+                  <td>{{ cnt }}</td>
+                  <td>
+                    <div class="bar-cell">
+                      <div class="bar-track" style="min-width:80px;"><div class="bar-fill" style="width:{{ [(cnt / total * 100), 100]|min }}%;"></div></div>
+                      <span style="font-size:11px;color:var(--color-text-muted);">{{ "%.1f"|format(cnt / total * 100) }}%</span>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <p style="color:var(--color-text-muted); font-family:var(--font-mono); font-size:12px;">
+            Run <code style="color:var(--color-accent);">uv run python prepare_yolo_dataset.py</code> to generate country distribution data.
+          </p>
+          {% endif %}
+        </div>
+
+        <div class="card">
+          <div class="card-title">Dataset Contact Sheet</div>
+          <div class="viewport-frame" aria-label="Sample river scenes">
+            <img src="/reports/data_audit_contact_sheet.jpg" alt="Dataset contact sheet"
+                 onerror="this.parentElement.innerHTML='<div class=\'viewport-placeholder\'><svg width=\'36\' height=\'36\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><path d=\'M3 9h18M9 21V9\'/></svg><span>Contact sheet generates after pipeline run</span></div>'">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 6: EDGE BENCHMARKS
+    ══════════════════════════════════════════ -->
+    <section id="page-edge" class="page" aria-label="Edge Benchmarks">
+      <div class="page-hero">
+        <div>
+          <div class="page-hero-title">Edge Deployment Benchmarks</div>
+          <div class="page-hero-sub">ONNX · TFLite FP16 · OpenVINO · export recommendation matrix</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Deployment Recommendation Matrix</div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Deployment Target</th>
+                <th>Recommended Model</th>
+                <th>Resolution</th>
+                <th>Target FPS</th>
+                <th>Strategic Advantage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:600;">Laptop CPU — Live River Monitoring</td>
+                <td><span class="chip chip-blue">YOLOv8 Nano ONNX/OpenVINO</span></td>
+                <td style="font-family:var(--font-mono);">512×512</td>
+                <td style="font-family:var(--font-mono); color:var(--color-accent);">20–30 FPS</td>
+                <td>AVX-512 acceleration · low memory footprint</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;">Raspberry Pi / Solar Buoy</td>
+                <td><span class="chip chip-muted">AutoML TFLite / YOLOv8n INT8</span></td>
+                <td style="font-family:var(--font-mono);">320–512 px</td>
+                <td style="font-family:var(--font-mono); color:var(--color-accent);">2–10 FPS</td>
+                <td>~2.8 MB footprint · Pi Zero / 4 / 5 compatible</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;">Survey Drone — Broad River Sweep</td>
+                <td><span class="chip chip-primary">YOLOv8n Accurate 3×3 Tiling</span></td>
+                <td style="font-family:var(--font-mono);">640×640 grid</td>
+                <td style="font-family:var(--font-mono); color:var(--color-accent);">1–3 FPS</td>
+                <td>Maximum recall for sub-pixel distant bottles</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          CPU Throughput Baseline
+          <span class="card-title-accent">Measured on current hardware · no GPU</span>
+        </div>
+        <div class="grid-4">
+          <div class="metric-well">
+            <div class="metric-label">YOLO Throughput</div>
+            <div class="metric-value">~27</div>
+            <div class="metric-sub">IMAGES / SEC</div>
+          </div>
+          <div class="metric-well">
+            <div class="metric-label">YOLO p95 Latency</div>
+            <div class="metric-value">26 ms</div>
+            <div class="metric-sub">PER FRAME</div>
+          </div>
+          <div class="metric-well">
+            <div class="metric-label">TFLite Baseline</div>
+            <div class="metric-value">~2,086</div>
+            <div class="metric-sub">MS / INFERENCE</div>
+          </div>
+          <div class="metric-well">
+            <div class="metric-label">ONNX Export Size</div>
+            <div class="metric-value">12.2 MB</div>
+            <div class="metric-sub">YOLOV8N ONNX</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 7: ABOUT & MODEL CARD
+    ══════════════════════════════════════════ -->
+    <section id="page-about" class="page" aria-label="About and Model Card">
+      <div class="page-hero">
+        <div>
+          <div class="page-hero-title">Model Card &amp; Operational Scope</div>
+          <div class="page-hero-sub">PurifEye v0.1 · YOLOv8 Nano · CPU-only · river plastic detection</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Mission &amp; Architecture</div>
+          <div style="line-height:1.9; color:var(--color-text-emp); font-size:14px;">
+            <p><strong style="color:var(--color-accent);">Mission:</strong> Automated detection and quantification of floating plastic bottles in freshwater riverways to prevent marine plastic discharge at the source.</p>
+            <div class="divider"></div>
+            <p><strong style="color:var(--color-accent);">Hardware Profile:</strong> Designed strictly for standard CPU and edge hardware. Zero GPU dependencies. Multi-threaded consumer-grade architectures using Python <code style="color:var(--color-accent);">threading</code> and <code style="color:var(--color-accent);">queue.Queue</code>.</p>
+            <div class="divider"></div>
+            <p><strong style="color:var(--color-accent);">Inference Stack:</strong> YOLOv8 Nano (Ultralytics 8.4) + PyTorch CPU backend. Edge: ONNX Runtime, OpenVINO, ai-edge-litert TFLite.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Known Limitations &amp; Boundaries</div>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:12px;">
+            <li style="display:flex; gap:12px; align-items:flex-start;">
+              <span style="color:var(--color-primary); font-size:16px; flex-shrink:0;">◈</span>
+              <span style="color:var(--color-text-muted); font-size:13px;">Extreme specular water glare under direct vertical midday sun reduces detection confidence.</span>
+            </li>
+            <li style="display:flex; gap:12px; align-items:flex-start;">
+              <span style="color:var(--color-primary); font-size:16px; flex-shrink:0;">◈</span>
+              <span style="color:var(--color-text-muted); font-size:13px;">Heavy industrial foam rafts or biological mats can obscure bottle contours and cause false negatives.</span>
+            </li>
+            <li style="display:flex; gap:12px; align-items:flex-start;">
+              <span style="color:var(--color-primary); font-size:16px; flex-shrink:0;">◈</span>
+              <span style="color:var(--color-text-muted); font-size:13px;">Low-light nocturnal surveillance is out-of-scope (dataset collected exclusively in daylight conditions).</span>
+            </li>
+            <li style="display:flex; gap:12px; align-items:flex-start;">
+              <span style="color:var(--color-primary); font-size:16px; flex-shrink:0;">◈</span>
+              <span style="color:var(--color-text-muted); font-size:13px;">Submerged or heavily algae-coated clear PET bottles with matching water refractive index are likely missed.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card" style="grid-column: 1 / -1;">
+          <div class="card-title">Technology Stack</div>
+          <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            <span class="chip chip-blue">Python 3.12.14</span>
+            <span class="chip chip-blue">PyTorch 2.15.0+cpu</span>
+            <span class="chip chip-blue">Ultralytics 8.4</span>
+            <span class="chip chip-blue">OpenCV 4.11.0</span>
+            <span class="chip chip-blue">ONNX 1.32.0</span>
+            <span class="chip chip-blue">ai-edge-litert 2.3.0</span>
+            <span class="chip chip-primary">FastAPI + Uvicorn</span>
+            <span class="chip chip-primary">uv package manager</span>
+            <span class="chip chip-muted">CPU-only · No GPU required</span>
+            <span class="chip chip-muted">BUILTIN_WITHOUT_DEFAULT_DELEGATES</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div>PurifEye Dashboard · Edge AI River Plastic Detection System</div>
+    <div class="footer-hw">
+      <div class="footer-hw-item">
+        <span style="color:var(--color-border);">◆</span>
+        <span>CPU-only · No GPU</span>
+      </div>
+      <div class="footer-hw-item">
+        <span style="color:var(--color-border);">◆</span>
+        <span>YOLOv8 Nano · PyTorch backend</span>
+      </div>
+      <div class="footer-hw-item">
+        <span class="status-dot" style="animation-duration:2.5s;"></span>
+        <span id="footer-status">Dashboard ready</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
