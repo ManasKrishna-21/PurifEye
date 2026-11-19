@@ -1,0 +1,7 @@
+{
+  "onnx": {
+    "path": "yolov8n.onnx",
+    "size_mb": 12.23,
+    "status": "success"
+  }
+}

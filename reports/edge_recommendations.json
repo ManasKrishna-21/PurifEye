@@ -1,0 +1,20 @@
+{
+  "laptop_cpu_realtime": {
+    "model": "YOLOv8 Nano (OpenVINO / ONNX)",
+    "input": "512x512",
+    "target_fps": "20-30 FPS",
+    "advantage": "AVX-512 CPU acceleration and low memory footprint"
+  },
+  "raspberry_pi_edge": {
+    "model": "AutoML MobileNet-SSD TFLite / YOLOv8n INT8",
+    "input": "320x320 - 512x512",
+    "target_fps": "2-10 FPS",
+    "advantage": "Ultra-lightweight ~2.8 MB footprint suitable for Pi Zero/4/5"
+  },
+  "max_accuracy_survey": {
+    "model": "YOLOv8 Nano (Accurate 640px 3x3 Tiling)",
+    "input": "Full-Resolution 3x3 Grid",
+    "target_fps": "1-3 FPS",
+    "advantage": "Highest mAP for tiny, distant bottles on broad river reaches"
+  }
+}

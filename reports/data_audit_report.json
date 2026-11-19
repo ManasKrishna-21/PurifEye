@@ -1,0 +1,23 @@
+{
+  "total_images": 50,
+  "total_annotations": 50,
+  "total_boxes": 299,
+  "avg_boxes_per_image": 5.98,
+  "small_objects_count": 290,
+  "small_objects_percentage": 96.99,
+  "near_duplicates_found": 21,
+  "country_distribution": {
+    "Indonesia": 40,
+    "India": 10,
+    "Nepal": 0,
+    "Pakistan": 0,
+    "Unknown": 0,
+    "Bosnia": 0,
+    "Bangladesh": 0
+  },
+  "class_distribution": {
+    "plastic bottle": 299
+  },
+  "anomalies_logged": 0,
+  "recommendation": "DATA AUDIT FINDING: 97.0% of objects are small (<32x32 or <1% area). Downscaling large images (median resolution ~3024x3096) directly to 512x512 eliminates fine details. RECOMMENDATION: Use 640px overlapped tiling (20% overlap) with full-image downscaled anchors. Targeted augmentations for water glare and turbidity must be enabled without vertical scene flips."
+}
