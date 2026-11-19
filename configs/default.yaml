@@ -1,0 +1,39 @@
+hardware:
+  threads: 8
+  workers: 4
+  batch_size: 16
+  cache_ram: false
+
+dataset:
+  raw_dir: "Dataset/Plastic-Bottles-Dataset-master/Plastic-Bottles-Dataset"
+  yolo_dir: "yolo_dataset"
+  tile_size: 640
+  tile_overlap: 0.20
+  min_visibility: 0.40
+  split_ratio: [0.70, 0.15, 0.15]
+  seed: 42
+
+training:
+  model: "yolov8n.pt"
+  imgsz: 640
+  epochs: 35
+  patience: 10
+  freeze: 5
+  cos_lr: true
+  close_mosaic: 5
+  box: 7.5
+  cls: 0.5
+  dfl: 1.5
+
+inference:
+  accurate:
+    tiling: true
+    tile_size: 640
+    overlap: 0.20
+    conf_thresh: 0.25
+    iou_thresh: 0.45
+  live:
+    tiling: false
+    imgsz: 512
+    conf_thresh: 0.30
+    iou_thresh: 0.50
