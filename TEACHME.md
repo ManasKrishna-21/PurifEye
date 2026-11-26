@@ -130,7 +130,7 @@ Following strict engineering rules ensures reproducible research, code hygiene, 
 | **Concurrency & Streaming** | Use standard Python `threading.Thread` and single-slot `queue.Queue` with stale-frame dropping for live video. | Never use `async/await` for CPU compute-bound vision loops, and never use unbounded queues that cause live video lag. |
 | **TFLite Windows CPU** | Use `OpResolverType.BUILTIN_WITHOUT_DEFAULT_DELEGATES` when initializing TFLite models. | Do not initialize standard XNNPACK delegates blindly on Windows CPU builds where multi-thread allocation can trigger runtime exceptions. |
 | **Metrics Reporting** | Always report test split name, confidence threshold, IoU threshold, and exact hardware configuration alongside metrics. | Never fabricate metrics or present smoke-test subset numbers as full production benchmarks. |
-| **Design System** | Use the strict **PurifEye Blue Design Tokens** (Canvas: `#242649`, Cards: `#222B68`, Accent: `#65A7D3`). | Never introduce random green, orange, or olive color schemes into plots or web dashboard components. |
+| **Design System** | Use the strict **Ocean Blue & Deep Blue Design Tokens** (Canvas: `#060E1F`, Cards: `#0A1836`, Accent: `#38BDF8`, Primary: `#0284C7`). | Never introduce random green, orange, or olive color schemes into plots or web dashboard components. |
 
 ---
 
