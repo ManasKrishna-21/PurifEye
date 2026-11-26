@@ -229,21 +229,22 @@ The dashboard runs locally via FastAPI and features **7 specialized modules**:
 
 ---
 
-## 🎨 Blue Design System Tokens
+## 🎨 Ocean Blue & Deep Blue Design System Tokens
 
-PurifEye enforces a consistent **Eco-Industrial Dark Blue** visual theme across all web interfaces, plots, and terminal displays:
+PurifEye enforces a consistent **Ocean Blue & Deep Blue Dark Mode** visual theme across all web interfaces, plots, and terminal displays (with an interactive theme toggle between *Ocean Dark* and *Abyss Dark*):
 
-| Component | Token Name | Hex Code | Purpose |
+| Component | Token Name | Ocean Dark Hex | Purpose |
 |---|---|---|---|
-| **Canvas** | `--color-canvas` | `#242649` | Deep charcoal navy application background |
-| **Cards** | `--color-card` | `#222B68` | Elevated midnight indigo card containers |
-| **Raised** | `--color-raised` | `#23337C` | Table headers and hover states |
-| **Borders** | `--color-border` | `#364989` | Subtle geometric dividers and grid lines |
-| **Primary** | `--color-primary` | `#386CAF` | Primary action buttons and navigation tabs |
-| **Accent / HUD** | `--color-accent` | `#65A7D3` | Bounding boxes, crosshairs, reticles, active status |
-| **Secondary Text** | `--color-text-muted`| `#B2D3EB` | Metrics labels and descriptions |
-| **Headers** | `--color-text-emp` | `#CDDFEF` | Subtitles, table headers, and emphasis |
-| **Primary Text** | `--color-text-white`| `#FFFFFF` | Headlines and high-contrast telemetry |
+| **Canvas** | `--color-canvas` | `#060E1F` | Deep abyssal midnight ocean background |
+| **Cards** | `--color-card` | `#0A1836` | Submerged midnight ocean card containers |
+| **Raised** | `--color-raised` | `#0F224B` | Table headers and elevated hover states |
+| **Borders** | `--color-border` | `#1B3975` | Subtle oceanic shelf dividers and grid lines |
+| **Primary** | `--color-primary` | `#0284C7` | Ocean cerulean primary action buttons and tabs |
+| **Accent / HUD** | `--color-accent` | `#38BDF8` | Bioluminescent ocean aqua reticles, boxes, active status |
+| **Secondary Accent** | `--color-accent-marine` | `#00B4D8` | Tropical ocean wave highlights and gradients |
+| **Secondary Text** | `--color-text-muted` | `#8AC5E8` | Ocean mist metric labels and descriptions |
+| **Headers** | `--color-text-emp` | `#D0E8F7` | Ocean foam titles, table headers, and emphasis |
+| **Primary Text** | `--color-text-white` | `#FFFFFF` | Headlines and high-contrast telemetry |
 
 ---
 
