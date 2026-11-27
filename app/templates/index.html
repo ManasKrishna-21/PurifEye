@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="PurifEye — Edge AI river plastic bottle detection dashboard">
-  <meta name="theme-color" content="#242649">
+  <meta name="theme-color" content="#060e1f">
   <title>PurifEye — Precision River Plastic Detection</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23386CAF'/><text x='16' y='22' text-anchor='middle' font-size='18' font-weight='700' fill='white' font-family='sans-serif'>P</text></svg>">
   <link rel="stylesheet" href="/static/styles.css">
@@ -20,15 +20,21 @@
       </div>
       <span class="brand-badge">EDGE AI v0.1</span>
     </div>
-    <nav role="navigation" aria-label="Dashboard pages">
-      <button class="nav-tab active" data-page="page-live"    aria-current="page">Live Detect</button>
-      <button class="nav-tab"        data-page="page-analyzer"              >Image Analyzer</button>
-      <button class="nav-tab"        data-page="page-lab"                   >Model Lab</button>
-      <button class="nav-tab"        data-page="page-eval"                  >Evaluation</button>
-      <button class="nav-tab"        data-page="page-dataset"               >Dataset Explorer</button>
-      <button class="nav-tab"        data-page="page-edge"                  >Edge Benchmarks</button>
-      <button class="nav-tab"        data-page="page-about"                 >About &amp; Card</button>
-    </nav>
+    <div class="header-actions">
+      <nav role="navigation" aria-label="Dashboard pages">
+        <button class="nav-tab active" data-page="page-live"    aria-current="page">Live Detect</button>
+        <button class="nav-tab"        data-page="page-analyzer"              >Image Analyzer</button>
+        <button class="nav-tab"        data-page="page-lab"                   >Model Lab</button>
+        <button class="nav-tab"        data-page="page-eval"                  >Evaluation</button>
+        <button class="nav-tab"        data-page="page-dataset"               >Dataset Explorer</button>
+        <button class="nav-tab"        data-page="page-edge"                  >Edge Benchmarks</button>
+        <button class="nav-tab"        data-page="page-about"                 >About &amp; Card</button>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Toggle Ocean Dark / Abyss Dark Mode" title="Toggle Theme">
+        <span class="theme-icon" aria-hidden="true">🌊</span>
+        <span class="theme-label" id="theme-label">Ocean Dark</span>
+      </button>
+    </div>
   </header>
 
   {% if is_smoke %}
