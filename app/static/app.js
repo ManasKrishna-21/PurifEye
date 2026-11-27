@@ -2,6 +2,36 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  // ── Dark Mode & Color Theme Management (Ocean Blue / Deep Blue) ──
+  const themeToggleBtn = document.getElementById("theme-toggle");
+  const themeLabel     = document.getElementById("theme-label");
+  const themeIcon      = themeToggleBtn ? themeToggleBtn.querySelector(".theme-icon") : null;
+
+  function applyTheme(theme) {
+    if (theme === "abyss-dark") {
+      document.documentElement.setAttribute("data-theme", "abyss-dark");
+      if (themeLabel) themeLabel.textContent = "Abyss Dark";
+      if (themeIcon)  themeIcon.textContent = "🌌";
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+      if (themeLabel) themeLabel.textContent = "Ocean Dark";
+      if (themeIcon)  themeIcon.textContent = "🌊";
+    }
+    localStorage.setItem("purifeye-theme", theme);
+  }
+
+  // Load saved preference or default to Ocean Dark
+  const savedTheme = localStorage.getItem("purifeye-theme") || "ocean-dark";
+  applyTheme(savedTheme);
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener("click", () => {
+      const isAbyss = document.documentElement.getAttribute("data-theme") === "abyss-dark";
+      const nextTheme = isAbyss ? "ocean-dark" : "abyss-dark";
+      applyTheme(nextTheme);
+    });
+  }
+
   // ── Tab Navigation ──────────────────────────────────────────
   const navTabs = document.querySelectorAll(".nav-tab");
   const pages   = document.querySelectorAll(".page");
