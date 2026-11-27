@@ -22,19 +22,22 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 PURIFEYE_COLORS = {
-    "canvas": "#242649",
-    "card": "#222B68",
-    "raised": "#23337C",
-    "deep_sapphire": "#263B84",
-    "border": "#364989",
-    "primary": "#386CAF",
-    "accent": "#65A7D3",
-    "text_muted": "#B2D3EB",
-    "text_emp": "#CDDFEF",
+    # Deep Blue Surfaces
+    "canvas": "#060e1f",
+    "card": "#0a1836",
+    "raised": "#0f224b",
+    "deep_sapphire": "#152e63",
+    "border": "#1b3975",
+    # Ocean Blue Accents
+    "primary": "#0284c7",
+    "accent": "#38bdf8",
+    "ocean_marine": "#00b4d8",
+    "text_muted": "#8ac5e8",
+    "text_emp": "#d0e8f7",
     "text_light": "#FFFFFF",
 }
 
-COLOR_RAMP = ["#242649", "#263B84", "#386CAF", "#65A7D3", "#CDDFEF"]
+COLOR_RAMP = ["#060e1f", "#152e63", "#0284c7", "#38bdf8", "#d0e8f7"]
 
 
 def apply_purifeye_theme():
