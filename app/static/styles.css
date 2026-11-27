@@ -1,45 +1,95 @@
 /* ============================================================
-   PurifEye Design System — Blue Palette Only
-   Canvas:#242649  Card:#222B68  Raised:#23337C
-   Border:#364989  Primary:#386CAF  Pressed:#263B84
-   Accent:#65A7D3  Text-W:#FFFFFF  Text-S:#B2D3EB  Text-E:#CDDFEF
+   PurifEye Design System — Ocean Blue & Deep Blue Dark Mode
+   
+   Palette:
+   - Deep Blue: Abyssal midnight depths, oceanic shelf navy
+   - Ocean Blue: Cerulean ocean waves, marine aqua, bioluminescent cyan
+   - Strict blue-only contrast hierarchy with zero non-blue hues
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap');
 
+/* ── Default Theme: Ocean Blue & Deep Blue Dark Mode ── */
 :root {
-  --color-canvas:      #242649;
-  --color-card:        #222B68;
-  --color-raised:      #23337C;
-  --color-pressed:     #263B84;
-  --color-border:      #364989;
-  --color-primary:     #386CAF;
-  --color-accent:      #65A7D3;
-  --color-accent-halo: #242649;
-  --color-text-white:  #FFFFFF;
-  --color-text-muted:  #B2D3EB;
-  --color-text-emp:    #CDDFEF;
+  /* Deep Blue Core Surfaces */
+  --color-canvas:          #060e1f;
+  --color-card:            #0a1836;
+  --color-raised:          #0f224b;
+  --color-pressed:         #152e63;
+  --color-border:          #1b3975;
+  --color-border-subtle:   rgba(27, 57, 117, 0.5);
 
+  /* Vibrant Ocean Blue Accents */
+  --color-primary:         #0284c7;
+  --color-primary-hover:   #0369a1;
+  --color-primary-grad:    linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  --color-accent:          #38bdf8;
+  --color-accent-marine:   #00b4d8;
+  --color-accent-halo:     #060e1f;
+  
+  /* Text Contrast Hierarchy (Ocean Mist & Ice Foam) */
+  --color-text-white:      #ffffff;
+  --color-text-emp:        #d0e8f7;
+  --color-text-muted:      #8ac5e8;
+  --color-text-dim:        #5b93b8;
+
+  /* Typography */
   --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono:    'JetBrains Mono', 'Courier New', monospace;
 
+  /* Animation & Shadows */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --shadow-card:   0 4px 24px rgba(0,0,0,0.35);
-  --shadow-glow:   0 0 24px rgba(56,108,175,0.35);
-  --shadow-accent: 0 0 16px rgba(101,167,211,0.25);
+  --shadow-card:   0 6px 28px rgba(0, 0, 0, 0.45);
+  --shadow-glow:   0 0 24px rgba(2, 132, 199, 0.3), 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-accent: 0 0 16px rgba(56, 189, 248, 0.28);
+  --shadow-ocean:  0 0 35px rgba(0, 180, 216, 0.2);
+}
+
+/* ── Alternate Theme: Abyssal Deep Blue Dark Mode ── */
+[data-theme="abyss-dark"] {
+  --color-canvas:          #030713;
+  --color-card:            #061129;
+  --color-raised:          #0b1a3d;
+  --color-pressed:         #102554;
+  --color-border:          #17346e;
+  --color-border-subtle:   rgba(23, 52, 110, 0.5);
+
+  --color-primary:         #1d4ed8;
+  --color-primary-hover:   #1e40af;
+  --color-primary-grad:    linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  --color-accent:          #60a5fa;
+  --color-accent-marine:   #3b82f6;
+  --color-accent-halo:     #030713;
+
+  --color-text-white:      #ffffff;
+  --color-text-emp:        #bfdbfe;
+  --color-text-muted:      #93c5fd;
+  --color-text-dim:        #4b6ea3;
+
+  --shadow-card:   0 6px 30px rgba(0, 0, 0, 0.6);
+  --shadow-glow:   0 0 24px rgba(37, 99, 235, 0.28), 0 8px 36px rgba(0, 0, 0, 0.65);
+  --shadow-accent: 0 0 16px rgba(96, 165, 250, 0.25);
+  --shadow-ocean:  0 0 35px rgba(37, 99, 235, 0.2);
 }
 
 /* ── Reset ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-/* ── Coordinate-grid body background ── */
+/* ── Deep Ocean Ambient Canvas with Precision Grid ── */
 body {
   background-color: var(--color-canvas);
   background-image:
-    linear-gradient(rgba(101,167,211,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(101,167,211,0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
+    radial-gradient(circle at 12% 18%, rgba(2, 132, 199, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 88% 78%, rgba(0, 180, 216, 0.06) 0%, transparent 50%),
+    linear-gradient(rgba(56, 189, 248, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.035) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+  background-attachment: fixed;
   color: var(--color-text-white);
   font-family: var(--font-body);
   font-size: 14px;
@@ -47,24 +97,31 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ══════════════════════════════════════════════
-   HEADER
+   HEADER (Deep Ocean Glassmorphic Navigation)
 ══════════════════════════════════════════════ */
 header {
-  background-color: rgba(34,43,104,0.92);
-  backdrop-filter: blur(12px);
+  background-color: rgba(10, 24, 54, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--color-border);
   padding: 0 24px;
-  height: 56px;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
   z-index: 200;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="abyss-dark"] header {
+  background-color: rgba(6, 17, 41, 0.92);
 }
 
 /* Brand */
@@ -77,38 +134,38 @@ header {
 
 .brand-logo {
   position: relative;
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-raised));
+  width: 34px;
+  height: 34px;
+  background: var(--color-primary-grad);
   border: 1px solid var(--color-accent);
-  border-radius: 6px;
+  border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--color-text-white);
-  box-shadow: 0 0 12px rgba(101,167,211,0.3);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
 }
 
-/* L-corner brackets on logo */
+/* Reticle brackets on brand logo */
 .brand-logo::before,
 .brand-logo::after {
   content: '';
   position: absolute;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-color: var(--color-accent);
   border-style: solid;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 .brand-logo::before { top: -2px; left: -2px; border-width: 1.5px 0 0 1.5px; }
 .brand-logo::after  { bottom: -2px; right: -2px; border-width: 0 1.5px 1.5px 0; }
 
 .brand-title {
   font-family: var(--font-heading);
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--color-text-white);
@@ -117,7 +174,7 @@ header {
 .brand-subtitle {
   font-family: var(--font-mono);
   font-size: 10px;
-  color: var(--color-text-muted);
+  color: var(--color-accent);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   line-height: 1.1;
@@ -126,18 +183,25 @@ header {
 .brand-badge {
   font-family: var(--font-mono);
   font-size: 10px;
-  background: rgba(56,108,175,0.2);
+  background: rgba(2, 132, 199, 0.18);
   color: var(--color-accent);
-  padding: 2px 8px;
+  padding: 3px 9px;
   border-radius: 20px;
-  border: 1px solid rgba(101,167,211,0.3);
-  letter-spacing: 0.05em;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  letter-spacing: 0.06em;
 }
 
-/* Navigation */
+/* Header Actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Navigation Tabs */
 nav {
   display: flex;
-  gap: 2px;
+  gap: 3px;
 }
 
 .nav-tab {
@@ -145,7 +209,7 @@ nav {
   background: transparent;
   border: none;
   color: var(--color-text-muted);
-  padding: 6px 14px;
+  padding: 7px 15px;
   border-radius: 6px;
   font-family: var(--font-body);
   font-size: 13px;
@@ -159,22 +223,23 @@ nav {
   content: '';
   position: absolute;
   bottom: -1px;
-  left: 14px;
-  right: 14px;
+  left: 12px;
+  right: 12px;
   height: 2px;
   background: var(--color-accent);
   border-radius: 2px 2px 0 0;
   transform: scaleX(0);
   transition: transform 0.2s var(--ease-out-expo);
+  box-shadow: 0 0 8px var(--color-accent);
 }
 
 .nav-tab:hover {
-  background: rgba(35,51,124,0.5);
+  background: rgba(15, 34, 75, 0.6);
   color: var(--color-text-white);
 }
 
 .nav-tab.active {
-  background: rgba(56,108,175,0.18);
+  background: rgba(2, 132, 199, 0.18);
   color: var(--color-text-white);
   font-weight: 600;
 }
@@ -183,12 +248,46 @@ nav {
   transform: scaleX(1);
 }
 
+/* Theme Toggle Button (Ocean Dark <-> Abyss Dark) */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(15, 34, 75, 0.7);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  color: var(--color-text-emp);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(2, 132, 199, 0.2);
+  border-color: var(--color-accent);
+  color: var(--color-text-white);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+}
+
+.theme-icon {
+  font-size: 13px;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle-btn:hover .theme-icon {
+  transform: rotate(20deg) scale(1.1);
+}
+
 /* ══════════════════════════════════════════════
    SMOKE BANNER
 ══════════════════════════════════════════════ */
 .smoke-banner {
   background: linear-gradient(90deg, var(--color-pressed), var(--color-raised), var(--color-pressed));
-  border-bottom: 1px solid rgba(101,167,211,0.5);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.45);
   color: var(--color-text-emp);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -213,7 +312,7 @@ main {
 }
 
 .page { display: none; }
-.page.active { display: block; animation: fade-in 0.2s ease; }
+.page.active { display: block; animation: fade-in 0.22s ease; }
 
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(6px); }
@@ -221,22 +320,23 @@ main {
 }
 
 /* ══════════════════════════════════════════════
-   PAGE HEADER / HERO STRIP
+   PAGE HERO / STRIP
 ══════════════════════════════════════════════ */
 .page-hero {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
-  padding: 14px 20px;
-  background: linear-gradient(90deg, rgba(35,51,124,0.6), transparent);
+  margin-bottom: 22px;
+  padding: 16px 22px;
+  background: linear-gradient(90deg, rgba(15, 34, 75, 0.75), rgba(6, 14, 31, 0.3));
   border-left: 3px solid var(--color-accent);
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 9px 9px 0;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
 }
 
 .page-hero-title {
   font-family: var(--font-heading);
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 700;
   color: var(--color-text-white);
   letter-spacing: -0.02em;
@@ -246,7 +346,7 @@ main {
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--color-text-muted);
-  margin-top: 2px;
+  margin-top: 3px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
@@ -261,51 +361,52 @@ main {
 }
 
 /* ══════════════════════════════════════════════
-   CARDS
+   CARDS (Deep Ocean Slabs)
 ══════════════════════════════════════════════ */
 .card {
   position: relative;
   background-color: var(--color-card);
   border: 1px solid var(--color-border);
   border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 22px;
+  margin-bottom: 22px;
   box-shadow: var(--shadow-card);
   transition:
-    border-color 0.2s var(--ease-out-expo),
-    box-shadow   0.2s var(--ease-out-expo);
+    border-color 0.25s var(--ease-out-expo),
+    box-shadow   0.25s var(--ease-out-expo),
+    background-color 0.3s ease;
 }
 
-/* L-shaped corner bracket motif */
+/* L-shaped corner targeting brackets */
 .card::before,
 .card::after {
   content: '';
   position: absolute;
   width: 10px;
   height: 10px;
-  border-color: rgba(101,167,211,0.25);
+  border-color: rgba(56, 189, 248, 0.25);
   border-style: solid;
   pointer-events: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.25s ease;
 }
 .card::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; border-radius: 2px 0 0 0; }
 .card::after  { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; border-radius: 0 0 2px 0; }
 
 .card:hover {
-  border-color: rgba(101,167,211,0.5);
+  border-color: rgba(56, 189, 248, 0.55);
   box-shadow: var(--shadow-glow);
 }
 .card:hover::before,
 .card:hover::after {
-  border-color: rgba(101,167,211,0.6);
+  border-color: var(--color-accent);
 }
 
 .card-title {
   font-family: var(--font-heading);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--color-text-white);
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -324,29 +425,31 @@ main {
 /* ══════════════════════════════════════════════
    GRID LAYOUTS
 ══════════════════════════════════════════════ */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 
-@media (max-width: 1024px) {
+@media (max-width: 1080px) {
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   nav { flex-wrap: wrap; gap: 2px; }
 }
 @media (max-width: 768px) {
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-  header { flex-direction: column; height: auto; padding: 12px 16px; gap: 10px; }
+  header { flex-direction: column; height: auto; padding: 14px 16px; gap: 12px; }
+  .header-actions { flex-direction: column; width: 100%; gap: 10px; }
+  nav { width: 100%; justify-content: center; }
   main { padding: 16px; }
 }
 
 /* ══════════════════════════════════════════════
-   METRIC WELLS
+   METRIC WELLS (Deep Sea Instrument Sensors)
 ══════════════════════════════════════════════ */
 .metric-well {
   position: relative;
-  background-color: rgba(36,38,73,0.8);
+  background: linear-gradient(180deg, rgba(15, 34, 75, 0.7) 0%, rgba(6, 14, 31, 0.85) 100%);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 16px;
+  border-radius: 9px;
+  padding: 16px 18px;
   overflow: hidden;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -356,12 +459,12 @@ main {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
-  opacity: 0.6;
+  background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-accent), transparent);
+  opacity: 0.8;
 }
 
 .metric-well:hover {
-  border-color: rgba(101,167,211,0.4);
+  border-color: rgba(56, 189, 248, 0.45);
   box-shadow: var(--shadow-accent);
 }
 
@@ -370,11 +473,11 @@ main {
   font-size: 10px;
   color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   margin-bottom: 6px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
 }
 
 .metric-value {
@@ -383,62 +486,65 @@ main {
   font-weight: 600;
   color: var(--color-text-white);
   line-height: 1.1;
+  text-shadow: 0 0 18px rgba(56, 189, 248, 0.15);
 }
 
 .metric-sub {
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--color-accent);
-  margin-top: 4px;
-  letter-spacing: 0.03em;
+  margin-top: 5px;
+  letter-spacing: 0.04em;
 }
 
-/* Live pulsing status dot */
+/* Live pulsing bioluminescent status dot */
 .status-dot {
   display: inline-block;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--color-accent);
-  box-shadow: 0 0 6px var(--color-accent);
-  animation: pulse-dot 1.6s ease-in-out infinite;
+  box-shadow: 0 0 8px var(--color-accent), 0 0 16px rgba(56, 189, 248, 0.4);
+  animation: pulse-dot 1.7s ease-in-out infinite;
   flex-shrink: 0;
 }
 
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.4; transform: scale(0.7); }
+  50%       { opacity: 0.35; transform: scale(0.7); }
 }
 
 /* ══════════════════════════════════════════════
-   VIEWPORT / VIDEO FRAME
+   VIEWPORT / VIDEO FRAME (Deep Ocean HUD)
 ══════════════════════════════════════════════ */
 .viewport-frame {
   position: relative;
-  background-color: #0d0f1e;
+  background-color: #030814;
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 9px;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 400px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.7);
 }
 
-/* Corner reticle brackets on viewport */
+/* Corner targeting reticle brackets on viewport */
 .viewport-frame::before,
 .viewport-frame::after {
   content: '';
   position: absolute;
   width: 18px;
   height: 18px;
-  border-color: rgba(101,167,211,0.5);
+  border-color: var(--color-accent);
   border-style: solid;
   pointer-events: none;
   z-index: 10;
+  opacity: 0.75;
 }
-.viewport-frame::before { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
-.viewport-frame::after  { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+.viewport-frame::before { top: 9px; left: 9px; border-width: 2px 0 0 2px; }
+.viewport-frame::after  { bottom: 9px; right: 9px; border-width: 0 2px 2px 0; }
 
 .viewport-frame img {
   max-width: 100%;
@@ -446,22 +552,22 @@ main {
   display: block;
 }
 
-/* Animated scanning line on live viewport */
+/* Ocean wave scan-line animation across active live viewport */
 .viewport-frame.live-active::after {
   content: '';
   position: absolute;
   left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(101,167,211,0.5), transparent);
-  animation: scan-line 3s linear infinite;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  animation: scan-line 3.2s linear infinite;
   pointer-events: none;
   z-index: 5;
   top: 0;
   border: none;
   width: auto;
   border-radius: 0;
+  box-shadow: 0 0 10px var(--color-accent);
 }
-/* Reset corner for live-active so pseudo doesn't double-up */
 .viewport-frame.live-active::after { bottom: unset; right: unset; }
 
 @keyframes scan-line {
@@ -471,36 +577,36 @@ main {
   100% { top: 100%; opacity: 0; }
 }
 
-/* Placeholder text inside viewport when no image loaded */
+/* Viewport Placeholder */
 .viewport-placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  color: var(--color-text-muted);
+  gap: 12px;
+  color: var(--color-text-dim);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  opacity: 0.6;
   pointer-events: none;
 }
 
 .viewport-placeholder svg {
-  opacity: 0.4;
+  opacity: 0.45;
+  color: var(--color-accent);
 }
 
 /* ══════════════════════════════════════════════
    FORM CONTROLS
 ══════════════════════════════════════════════ */
-.form-group { margin-bottom: 14px; }
+.form-group { margin-bottom: 15px; }
 
 label {
   display: block;
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--color-text-emp);
-  margin-bottom: 6px;
+  margin-bottom: 7px;
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -512,15 +618,15 @@ input[type="number"],
 input[type="range"],
 input[type="file"] {
   width: 100%;
-  background-color: rgba(36,38,73,0.9);
+  background-color: rgba(6, 14, 31, 0.92);
   border: 1px solid var(--color-border);
-  border-radius: 6px;
-  padding: 9px 12px;
+  border-radius: 7px;
+  padding: 10px 13px;
   color: var(--color-text-white);
   font-family: var(--font-mono);
   font-size: 13px;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 input[type="file"] { cursor: pointer; padding: 8px 10px; }
@@ -528,7 +634,7 @@ input[type="file"] { cursor: pointer; padding: 8px 10px; }
 select:focus,
 input:focus {
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(101,167,211,0.15);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
 }
 
 select:focus-visible,
@@ -544,41 +650,50 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-raised));
-  border: 1px solid rgba(101,167,211,0.4);
-  border-radius: 7px;
+  background: var(--color-primary-grad);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  border-radius: 8px;
   color: var(--color-text-white);
   font-family: var(--font-heading);
   font-weight: 600;
   font-size: 13px;
-  padding: 10px 20px;
+  padding: 10px 22px;
   cursor: pointer;
-  letter-spacing: 0.01em;
-  transition: all 0.15s var(--ease-out-expo);
+  letter-spacing: 0.02em;
+  transition: all 0.2s var(--ease-out-expo);
   overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 .btn::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
   opacity: 0;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.2s ease;
 }
 
 .btn:hover::before { opacity: 1; }
-.btn:hover { box-shadow: var(--shadow-glow); border-color: var(--color-accent); }
-.btn:active { background: linear-gradient(135deg, var(--color-pressed), var(--color-raised)); }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn:hover {
+  box-shadow: var(--shadow-glow);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+.btn:active {
+  transform: translateY(0);
+  background: linear-gradient(135deg, var(--color-pressed), var(--color-raised));
+}
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
 
 /* ══════════════════════════════════════════════
-   TABLES
+   TABLES (Ocean Streamline Layout)
 ══════════════════════════════════════════════ */
 .table-wrapper {
   overflow-x: auto;
-  border-radius: 8px;
+  border-radius: 9px;
   border: 1px solid var(--color-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 table {
@@ -591,10 +706,10 @@ table {
 thead { position: sticky; top: 0; }
 
 th {
-  background: linear-gradient(180deg, var(--color-raised), var(--color-pressed));
+  background: linear-gradient(180deg, var(--color-raised) 0%, var(--color-pressed) 100%);
   color: var(--color-text-emp);
   text-align: left;
-  padding: 11px 16px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--color-border);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -605,8 +720,8 @@ th {
 }
 
 td {
-  padding: 11px 16px;
-  border-bottom: 1px solid rgba(54,73,137,0.3);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border-subtle);
   color: var(--color-text-white);
   vertical-align: middle;
 }
@@ -614,13 +729,13 @@ td {
 tr:last-child td { border-bottom: none; }
 
 tr:hover td {
-  background-color: rgba(35,51,124,0.35);
+  background-color: rgba(2, 132, 199, 0.08);
 }
 
 /* Best value highlight */
 td.best-val {
   color: var(--color-accent);
-  background: rgba(101,167,211,0.07);
+  background: rgba(56, 189, 248, 0.09);
   font-weight: 600;
 }
 
@@ -628,16 +743,17 @@ td.best-val {
 .bar-cell { display: flex; align-items: center; gap: 10px; }
 .bar-track {
   flex: 1;
-  height: 4px;
-  background: rgba(54,73,137,0.5);
-  border-radius: 2px;
+  height: 5px;
+  background: rgba(27, 57, 117, 0.55);
+  border-radius: 3px;
   overflow: hidden;
 }
 .bar-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-  border-radius: 2px;
+  border-radius: 3px;
   transition: width 0.6s var(--ease-out-expo);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.35);
 }
 
 /* ══════════════════════════════════════════════
@@ -646,7 +762,7 @@ td.best-val {
 .divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--color-border), transparent);
-  margin: 20px 0;
+  margin: 22px 0;
 }
 
 /* ══════════════════════════════════════════════
@@ -661,21 +777,23 @@ td.best-val {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 2px 8px;
+  padding: 3px 9px;
   border-radius: 20px;
   border: 1px solid;
 }
-.chip-blue   { color: var(--color-accent);     border-color: rgba(101,167,211,0.4); background: rgba(101,167,211,0.08); }
-.chip-primary{ color: var(--color-primary);    border-color: rgba(56,108,175,0.4);  background: rgba(56,108,175,0.08); }
-.chip-muted  { color: var(--color-text-muted); border-color: var(--color-border);   background: rgba(54,73,137,0.15); }
+.chip-blue   { color: var(--color-accent);     border-color: rgba(56, 189, 248, 0.45); background: rgba(56, 189, 248, 0.1); }
+.chip-primary{ color: #38bdf8;                 border-color: rgba(2, 132, 199, 0.45);  background: rgba(2, 132, 199, 0.12); }
+.chip-muted  { color: var(--color-text-muted); border-color: var(--color-border);      background: rgba(27, 57, 117, 0.25); }
 
 /* ══════════════════════════════════════════════
-   FOOTER
+   FOOTER (Deep Ocean Telemetry Bar)
 ══════════════════════════════════════════════ */
 footer {
   border-top: 1px solid var(--color-border);
-  background: rgba(34,43,104,0.6);
-  padding: 10px 24px;
+  background: rgba(6, 14, 31, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -683,6 +801,7 @@ footer {
   font-size: 11px;
   color: var(--color-text-muted);
   letter-spacing: 0.04em;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .footer-hw {
@@ -691,17 +810,20 @@ footer {
   gap: 20px;
 }
 
-.footer-hw-item { display: flex; align-items: center; gap: 5px; }
+.footer-hw-item { display: flex; align-items: center; gap: 6px; }
 
 /* ══════════════════════════════════════════════
-   SCROLLBAR
+   SCROLLBAR (Deep Ocean Aqua Track)
 ══════════════════════════════════════════════ */
-::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar { width: 7px; height: 7px; }
 ::-webkit-scrollbar-track { background: var(--color-canvas); }
-::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
 
 /* ══════════════════════════════════════════════
    SELECTION
 ══════════════════════════════════════════════ */
-::selection { background: rgba(101,167,211,0.25); color: var(--color-text-white); }
+::selection {
+  background: rgba(56, 189, 248, 0.3);
+  color: var(--color-text-white);
+}
